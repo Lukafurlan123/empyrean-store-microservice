@@ -1,0 +1,12 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",
+    "password": "password",
+    "database": "empyrean",
+    "entities": ["src/entity/*.ts"],
+    "logging": true,
+    "autoSchemaSync": true,
+    "synchronize": true
+  }
