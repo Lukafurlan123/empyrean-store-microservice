@@ -1,6 +1,6 @@
 import Products from "../entity/products";
 import { Request, Response} from 'express';
-import { getProducts, getProduct } from "../services/get_products";
+import { getProducts, getProduct } from "../services/products";
 
 export async function products(request : Request, response : Response) {
   try {

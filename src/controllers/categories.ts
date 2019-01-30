@@ -1,6 +1,6 @@
 import Categories from '../entity/categories';
 import { Request, Response} from 'express';
-import { getCategories, getCategory } from '../services/get_categories';
+import { getCategories, getCategory } from '../services/categories';
 
 export async function categories(request : Request, response : Response) {
   try {
