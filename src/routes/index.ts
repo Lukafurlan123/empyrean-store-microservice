@@ -2,6 +2,7 @@ import express from 'express';
 import index from '../controllers';
 import { categories, category } from '../controllers/categories';
 import { products, product } from '../controllers/products';
+import { discount } from '../controllers/discounts';
 
 export default function init(application : express.Application) {
 
@@ -23,6 +24,10 @@ export default function init(application : express.Application) {
 
     application.get("/products/:id", async (request, response) => {
         await product(request, response);
+    });
+
+    application.get("/discounts/:name", async (request, response) => {
+        await discount(request, response);
     });
 
 }

@@ -9,6 +9,7 @@ export async function categories(request : Request, response : Response) {
     response.send(categories);
   } catch {
     response.status(400);
+    response.send();
   }
 }
 
@@ -19,5 +20,6 @@ export async function category(request : Request, response : Response) {
     response.send(category);
   } catch {
     response.status(400);
+    response.send();
   }
 }

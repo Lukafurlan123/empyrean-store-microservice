@@ -1,9 +1,9 @@
+import Discounts from "../entity/discounts";
 import Products from "../entity/products";
 import uuid from 'uuid';
 import { Cart } from "../interfaces";
 import { selectOneProduct } from "../models/products";
 import { Payment } from 'typescript-g2apay-integration-api/src/interfaces';
-import Discounts from "../entity/discounts";
 import { selectOneDiscount } from "../models/discounts";
 
 export async function getDiscountPercentage(discuntCode: string) : Promise<number> {
@@ -29,22 +29,21 @@ export async function filterProducts(products: Cart.POST.Product[]) : Promise<Ca
   });
 }
 
-export async function transformProducts(products: Cart.POST.Product[], discountPercentage?: number) : Promise<Payment.Item[]> {
+export async function transformProducts(products: Cart.POST.Product[], discountPercentage?: number) : Promise<Cart.POST.ProcessedCart> {
   try {
     products = await filterProducts(products);
     if(products.length === 0) {
       throw new Error();
     }
-    return await Promise.all(products.map(async (product) : Promise<Payment.Item> => {
+    let totalPrice : number = 0;
+    const items : Payment.Item[] = await Promise.all(products.map(async (product) : Promise<Payment.Item> => {
       const selectedProduct : Products = await selectOneProduct(product.product_id);
-
       let discount : number = 0;
-
       if(discountPercentage) {
         discount = discountPercentage;
       }
-
       let discountedPrice = selectedProduct.price - ((selectedProduct.price / 100) * discount);
+      totalPrice += discountedPrice * product.product_amount;
 
       return {
         sku: uuid.v4(),
@@ -57,6 +56,11 @@ export async function transformProducts(products: Cart.POST.Product[], discountP
         url: 'http://localhost.com'
       }
     }));
+
+    return {
+      items: items,
+      total_price: totalPrice + '',
+    }
   } catch {
     throw new Error();
   }

@@ -9,6 +9,7 @@ export async function products(request : Request, response : Response) {
     response.send(products);
   } catch {
     response.status(400);
+    response.send();
   }
 }
 
@@ -19,5 +20,6 @@ export async function product(request : Request, response : Response) {
     response.send(product);
   } catch {
     response.status(400);
+    response.send();
   }
 }
